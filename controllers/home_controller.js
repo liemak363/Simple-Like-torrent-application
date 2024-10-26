@@ -6,5 +6,5 @@ module.exports.home = async (req, res) => {
 
     console.log(results_query);
 
-    res.send("it's home");
+    res.send(JSON.stringify(results_query));
 };
