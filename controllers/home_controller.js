@@ -176,6 +176,12 @@ module.exports.home = async (req, res) => {
             return;
         }
 
+        let resObj = {
+            warning_message: "",
+            tracker_id: "",
+            peer_list: []
+        }
+        
         await database.update_metainfo_peer(info_hash, peer_id, port, downloaded, left, event);
         res.send(JSON.stringify(resObj));
         return;
