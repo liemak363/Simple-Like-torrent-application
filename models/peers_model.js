@@ -160,6 +160,21 @@ module.exports.update_metainfo_peer = async (info_hash, peer_id, port, downloade
     })
 }
 
+module.exports.delete_metainfo_peer = async (peer_id, info_hash) => {
+    await new Promise((resolve, reject) => {
+        function func(err, results, fields) {
+            if (err) reject();
+            else resolve();
+        }
+        connection.query(
+            `DELETE FROM metainfo_peer
+            WHERE peer_id = '${peer_id}' AND info_hash = '${info_hash}'
+            ;`,
+            func
+        )
+    })
+}
+
 module.exports.testData = async (info_hash) => {
     let results_query;
 

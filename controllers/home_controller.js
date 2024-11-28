@@ -166,15 +166,15 @@ module.exports.home = async (req, res) => {
         const isExisting = await handleExisting(res, info_hash, peer_id);
         if (!isExisting) return;
 
-        const isStopped = await checkStopped(info_hash, peer_id);
-        if (isStopped) {
-            res.send(
-                `{
-                    "failure reason": "connection stopped"
-                }`
-            )
-            return;
-        }
+        // const isStopped = await checkStopped(info_hash, peer_id);
+        // if (isStopped) {
+        //     res.send(
+        //         `{
+        //             "failure reason": "connection stopped"
+        //         }`
+        //     )
+        //     return;
+        // }
 
         let resObj = {
             warning_message: "",
@@ -182,7 +182,11 @@ module.exports.home = async (req, res) => {
             peer_list: []
         }
         
-        await database.update_metainfo_peer(info_hash, peer_id, port, downloaded, left, event);
+        // await database.update_metainfo_peer(info_hash, peer_id, port, downloaded, left, event);
+        try {
+            await database.delete_metainfo_peer(peer_id, info_hash);
+        }
+        catch (err) {}
         res.send(JSON.stringify(resObj));
         return;
     }
